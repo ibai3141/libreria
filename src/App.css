@@ -529,3 +529,48 @@ h2 {
     border-bottom: 2px dashed #d4b68a;
     padding-bottom: 10px;
 }
+
+
+/* ===== FILTROS ===== */
+.filtros {
+  margin: 20px 0 30px;
+  padding: 20px;
+  background-color: #faf7f2;
+  border-radius: 8px;
+  border: 1px solid #e8d9c5;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filtros label {
+  font-family: 'Georgia', serif;
+  color: #5c3e2d;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.select-filtro {
+  padding: 10px 15px;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  border: 1px solid #d4b68a;
+  border-radius: 6px;
+  background-color: white;
+  color: #3e2c1c;
+  cursor: pointer;
+  min-width: 250px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.select-filtro:hover {
+  border-color: #8b6b4d;
+  background-color: #f5f0e8;
+}
+
+.select-filtro:focus {
+  border-color: #8b6b4d;
+  box-shadow: 0 0 0 3px rgba(139, 107, 77, 0.2);
+}

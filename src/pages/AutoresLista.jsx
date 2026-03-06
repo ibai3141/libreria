@@ -97,6 +97,10 @@ function AutoresLista(){
         <button type="submit" className="boton-añadir">
           Añadir Autor
         </button>
+        <button onClick={() => navigate('/libros')} className="boton-añadir">
+          Ver Libros
+        </button>
+        
       </form>
 
          {/* Lista de autores */}
