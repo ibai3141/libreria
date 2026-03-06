@@ -41,9 +41,9 @@ function AutoresLista(){
 
     const altaAutor = async (e) =>{
 
-        e.preventDefault()  // 👈 IMPORTANTE: evita recargar la página
+        e.preventDefault()  // IMPORTANTE: evita recargar la página
     
-        if (!nuevoAutor.trim()) return  // 👈 Validación: nombre obligatorio
+        if (!nuevoAutor.trim()) return  // Validación: nombre obligatorio
 
         try {
 
@@ -81,7 +81,7 @@ function AutoresLista(){
           onChange={(e) => setNuevoAutor(e.target.value)}
           placeholder="Nombre del autor"
           className="input-tarea"
-          required  // 👈 Hace que el campo sea obligatorio
+          required  // Hace que el campo sea obligatorio
         />
         
         {/*SEGUNDO INPUT: nacionalidad (opcional) */}
@@ -107,9 +107,11 @@ function AutoresLista(){
               {autor.nacionalidad && ` nacionalidad: ${autor.nacionalidad}`}
 
             <button 
-              onClick={() => navigate(`/detalles/${autor.id}`)}  // 👈 CORREGIDO: pasa el ID
+              onClick={() => navigate(`/autores/${autor.id}`)}
               className="autor-boton"
-            >ver detalles</button>
+            >
+              ver detalles
+            </button>
 
           </li>
         ))}
