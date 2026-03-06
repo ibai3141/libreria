@@ -72,10 +72,6 @@ function LibrosLista() {
           <li key={libro.id} className="libro-item">
             <div className="libro-info">
               <span className="libro-titulo">{libro.titulo}</span>
-              <span className="libro-autor">
-                por {libro.autores?.nombre}
-                {libro.autores?.nacionalidad && ` (${libro.autores.nacionalidad})`}
-              </span>
             </div>
             <span className={`estado ${libro.publicado ? 'publicado' : 'no-publicado'}`}>
               {libro.publicado ? '✅ Publicado' : '📝 No publicado'}

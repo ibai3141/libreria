@@ -100,6 +100,9 @@ function AutoresLista(){
         <button onClick={() => navigate('/libros')} className="boton-añadir">
           Ver Libros
         </button>
+        <button onClick={() => navigate('/anadirlibro')} className="boton-añadir">
+          Añadir libro
+        </button>
         
       </form>
 

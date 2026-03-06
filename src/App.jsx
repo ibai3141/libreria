@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AutoresLista from './pages/AutoresLista'
 import AutorDetalle from './pages/AutorDetalle'
 import LibrosLista from './pages/LibrosLista'
+import AnadirLibro from './pages/AnadirLibro'
 import './App.css'
 
 function App(){
@@ -10,8 +11,8 @@ function App(){
       <Routes>
         <Route path='/' element={<AutoresLista/>}/>
         <Route path='/libros' element={<LibrosLista/>}/>
+        <Route path='/anadirlibro' element={<AnadirLibro/>}/>
         <Route path='/autores/:id' element={<AutorDetalle />} />
-
       </Routes>
     </BrowserRouter>
   )
