@@ -13,11 +13,11 @@ supabase = create_client(
 )
 
 origins = [
-    "http://localhost:5173",    # Para desarrollo local con Vite
+    "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "libreria-theta.vercel.app", 
+    "https://libreria-theta.vercel.app",
+    "https://libreria-theta.vercel.app/",  # A veces con barra también funciona
 ]
-
 
 app = FastAPI()
 
