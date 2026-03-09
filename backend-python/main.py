@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 from supabase import create_client
+from pydantic import BaseModel
+
 
 load_dotenv()
 
@@ -23,13 +25,27 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],  # Temporal para pruebas, NO para producción
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
 @app.get("/autores")
 async def getAutores():
     response = supabase.table("autores").select("*").execute()
     return response.data
+
+class AutorCreate(BaseModel):
+    nombre: str
+    nacionalidad: str
+
+@app.post("/anadirautores")
+async def altaAutor(autor : AutorCreate):
+    response = supabase.table("autores").insert([{
+        "nombre":autor.nombre, 
+        "nacionalidad":autor.nacionalidad}]).execute()
+    
+    return {"mensaje": "Autor creado", "data": response.data}
+
+    

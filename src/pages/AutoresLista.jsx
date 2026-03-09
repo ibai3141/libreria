@@ -16,65 +16,68 @@ Botón "Ver Todos los Libros" que navega a la lista completa de libros
 
 Botón "Añadir Libro" que navega al formulario para añadir libro
  */
-function AutoresLista(){
+function AutoresLista() {
 
-    const [autores, setAutores] = useState([])
-    const navigate = useNavigate()
-    const [nuevoAutor, setNuevoAutor] = useState('')
-    const [nuevanacionalidad, setNacionalidad] = useState('')
+  const [autores, setAutores] = useState([])
+  const navigate = useNavigate()
+  const [nuevoAutor, setNuevoAutor] = useState('')
+  const [nuevanacionalidad, setNacionalidad] = useState('')
 
+  useEffect(() => {
 
+    const cargarAutores = async () => {
 
-    useEffect(() => {
+      try {
+        const res = await fetch('https://libreria-tnm1.onrender.com/autores')
+        const data = await res.json()
+        setAutores(data)
+      } catch (error) {
 
-        const cargarAutores = async () =>{
-
-          try {
-            const res = await fetch('https://libreria.onrender.com/autores')
-            const data = res.json()
-
-            setAutores(data)
-          } catch (error) {
-            
-            console.error('Error al conectar con la API:', error)
-          }
-
-        }
-
-        cargarAutores()
-    },[])
-
-    const altaAutor = async (e) =>{
-
-        e.preventDefault()  // IMPORTANTE: evita recargar la página
-    
-        if (!nuevoAutor.trim()) return  // Validación: nombre obligatorio
-
-        try {
-
-            const {data} = await supabase
-            .from('autores')
-            .insert([{nombre : nuevoAutor, nacionalidad: nuevanacionalidad}])
-            .select()
-
-            if(data){
-
-                // Actualizar la lista con el nuevo autor
-                setAutores([...autores, data[0]])
-                // Limpiar formulario
-                setNuevoAutor('')
-                setNacionalidad('')
-
-            }
-            
-        } catch (error) {
-            console.error("error durante el alta de la tarea: ", error)
-        }
-
+        console.error('Error al conectar con la API:', error)
+      }
 
     }
 
-    return (
+    cargarAutores()
+  }, [])
+
+  const altaAutor = async (e) => {
+
+    e.preventDefault()  // IMPORTANTE: evita recargar la página
+
+    if (!nuevoAutor.trim()) return  // Validación: nombre obligatorio
+
+    try {
+
+      const response = await fetch(`http://127.0.0.1:8000/anadirautores`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: nuevoAutor, nacionalidad: nuevanacionalidad })
+      });
+
+      const result = await response.json()
+
+      if (response.ok) {
+
+        // Actualizar la lista con el nuevo autor
+        setAutores([...autores, data[0]])
+        // Limpiar formulario
+        setNuevoAutor('')
+        setNacionalidad('')
+
+      }else{
+        console.error('Error en la API:', result)
+
+      }
+
+    } catch (error) {
+      console.error("error durante el alta del autor: ", error)
+    }
+
+
+  }
+
+  return (
     <div className="app">
       <h1>Lista de autores</h1>
 
@@ -88,7 +91,7 @@ function AutoresLista(){
           className="input-tarea"
           required  // Hace que el campo sea obligatorio
         />
-        
+
         {/*SEGUNDO INPUT: nacionalidad (opcional) */}
         <input
           type="text"
@@ -98,7 +101,7 @@ function AutoresLista(){
           className="input-tarea"
           required
         />
-        
+
         <button type="submit" className="boton-añadir">
           Añadir Autor
         </button>
@@ -108,17 +111,17 @@ function AutoresLista(){
         <button onClick={() => navigate('/anadirlibro')} className="boton-añadir">
           Añadir libro
         </button>
-        
+
       </form>
 
-         {/* Lista de autores */}
+      {/* Lista de autores */}
       <ul className="lista-autores">
         {autores.map(autor => (
           <li key={autor.id} className="autor-item">
-              {autor.nombre && ` nombre: ${autor.nombre}`}
-              {autor.nacionalidad && ` nacionalidad: ${autor.nacionalidad}`}
+            {autor.nombre && ` nombre: ${autor.nombre}`}
+            {autor.nacionalidad && ` nacionalidad: ${autor.nacionalidad}`}
 
-            <button 
+            <button
               onClick={() => navigate(`/autores/${autor.id}`)}
               className="autor-boton"
             >
@@ -128,7 +131,7 @@ function AutoresLista(){
           </li>
         ))}
       </ul>
-      
+
     </div>
   )
 
