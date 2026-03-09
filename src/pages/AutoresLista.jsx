@@ -28,7 +28,7 @@ function AutoresLista() {
     const cargarAutores = async () => {
 
       try {
-        const res = await fetch('https://libreria-tnm1.onrender.com/autores')
+        const res = await fetch('http://127.0.0.1:8000/autores')
         const data = await res.json()
         setAutores(data)
       } catch (error) {
@@ -49,7 +49,7 @@ function AutoresLista() {
 
     try {
 
-      const response = await fetch(`http://127.0.0.1:8000/anadirautores`, {
+      const response = await fetch('http://127.0.0.1:8000/anadirautores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nombre: nuevoAutor, nacionalidad: nuevanacionalidad })
@@ -60,7 +60,7 @@ function AutoresLista() {
       if (response.ok) {
 
         // Actualizar la lista con el nuevo autor
-        setAutores([...autores, data[0]])
+        setAutores([...autores, result.data[0]])
         // Limpiar formulario
         setNuevoAutor('')
         setNacionalidad('')

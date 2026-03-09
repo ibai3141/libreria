@@ -39,6 +39,10 @@ async def getAutores():
 class AutorCreate(BaseModel):
     nombre: str
     nacionalidad: str
+    
+class LibroCreate(BaseModel):
+    titulo:str
+    id: int
 
 @app.post("/anadirautores")
 async def altaAutor(autor : AutorCreate):
@@ -48,4 +52,23 @@ async def altaAutor(autor : AutorCreate):
     
     return {"mensaje": "Autor creado", "data": response.data}
 
+
+@app.get("/autores/{id}")
+async def get_Autor(id : int):
+    autor = supabase.table("autores").select("*").eq("id", id).execute()
     
+    # Obtener sus libros
+    libros = supabase.table("libros").select("*").eq("autor_id", id).execute()
+    
+    return {
+        "autor": autor.data,
+        "libros": libros.data
+    }
+
+@app.post("/libro")
+async def altaLibro(libro : LibroCreate):
+    response = supabase.table("libros").insert([{
+        "titulo":libro.titulo,
+        "autor_id":libro.id}]).execute()
+    
+    return {"mensaje": "libro creado", "data" : response.data}

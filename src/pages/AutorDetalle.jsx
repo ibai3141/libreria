@@ -20,28 +20,25 @@ function AutorDetalle() {
     const { id } = useParams()//extrae los parametros de la URL
     const [autor, setAutor] = useState(null)
     const [nuevoTitulo, setTitulo] = useState('')
+
     const navigate = useNavigate()
 
     useEffect(() => {
 
         const cargarLibros = async () => {
 
-            const { data: autordata } = await supabase
-                .from('autores')
-                .select('*')
-                .eq('id', id)
-                .single()
+            try {
+                const res = await fetch(`http://127.0.0.1:8000/autores/${id}`)
 
-            setAutor(autordata)
+                const data = await res.json()
 
+                setAutor(data.autor[0] || null)
+                setLibros(data.libros || [])
+            } catch (error) {
+                console.error('Error al cargar autor o libros:', error)
 
+            }
 
-            const { data: librosdata } = await supabase
-                .from('libros')
-                .select('*')
-                .eq('autor_id', id)
-
-            setLibros(librosdata || [])
         }
 
         cargarLibros()
@@ -51,14 +48,19 @@ function AutorDetalle() {
 
     const altaLibro = async (e) => {
         e.preventDefault()
-        try {
-            const { data } = await supabase
-                .from('libros')
-                .insert({ titulo: nuevoTitulo, autor_id: id })
-                .select()
 
-            if (data) {
-                setLibros([...libros, data[0]])
+        try {
+
+            const response = await fetch('http://127.0.0.1:8000/libro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({titulo: nuevoTitulo, id: id})
+            });
+
+            const result = await response.json()
+
+            if (response.ok) {
+                setLibros([...libros, result.data[0]])
                 setTitulo('')
             }
 
@@ -88,10 +90,10 @@ function AutorDetalle() {
         }
     }
 
-    if (!autor) {
-        return <div className="app">Cargando autor...</div>
-    }
 
+    if (!autor) {
+    return <div className="app">Autor no encontrado</div>
+    }
 
 
 
