@@ -28,12 +28,17 @@ function AutoresLista(){
     useEffect(() => {
 
         const cargarAutores = async () =>{
-            const{data} = await supabase
-            .from('autores')
-            .select('*')
 
+          try {
+            const res = await fetch('https://libreria.onrender.com/autores')
+            const data = res.json()
 
-            setAutores(data || [])
+            setAutores(data)
+          } catch (error) {
+            
+            console.error('Error al conectar con la API:', error)
+          }
+
         }
 
         cargarAutores()
